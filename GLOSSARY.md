@@ -23,7 +23,3 @@
 
 - **MVP**: Minimum Viable Product — the initial version of Upcomer with core functionality.
 - **FFF**: Fast, Foolproof, Flexible — the guiding principles of this development system.
-
----
-
-This is the current version of the Glossary. Let me know if you'd like any updates!

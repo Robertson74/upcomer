@@ -13,14 +13,14 @@ Upcomer is a minimalist React Native mobile app that instantly shows upcoming so
 
 **Authentication & Onboarding**
 - [ ] As a user, I want to connect my Google account so that the app can access my calendar.
-- [ ] As a user, I want to stay logged in after connecting my account so that I don’t have to log in every time I open the app.
+- [ ] As a user, I want to stay logged in after connecting my account so that I don't have to log in every time I open the app.
 - [ ] As a user, I want to be able to log out of my Google account so that I can change accounts or stop using the app.
 
 **Upcomer Mode**
 - [ ] As a user, I want to see all my social events in the next 30 days as soon as I open the app so that I can quickly understand my upcoming social obligations.
 - [ ] As a user, I want the events sorted chronologically with the soonest ones at the top.
 - [ ] As a user, I want each event displayed as a card showing the title and relative time.
-- [ ] As a user, I want to see a message saying “No upcoming events” when I have no social events.
+- [ ] As a user, I want to see a message saying "No upcoming events" when I have no social events.
 
 **Day Mode**
 - [ ] As a user, I want to switch to Day Mode so that I can see my social events visually placed on the days they occur.
@@ -38,6 +38,51 @@ Upcomer is a minimalist React Native mobile app that instantly shows upcoming so
 ## Development History
 
 *(Newest entries at the top)*
+
+---
+
+### Session 1 — Project Foundation & Testing Setup
+**Date:** June 5, 2026
+
+Full foundation established. No user stories completed — this session was entirely infrastructure.
+
+**Types**
+- Defined all core domain types: `SocialEvent`, `CalendarDay`, `SocialData`, `GoogleCalendarEvent`, `AppMode`, `AuthState`, `DataState`, `AppState`
+- Split `src/types/index.ts` into focused files: `google.ts`, `social.ts`, `state.ts`, `navigation.ts`; `index.ts` is now a pure barrel
+
+**State Management**
+- Wired up RTK Query: `src/store/apiSlice.ts` skeleton with `fetchBaseQuery` pointed at `EXPO_PUBLIC_API_URL`
+- Added `appSlice` managing `currentMode: AppMode` with `setMode` action
+- Configured `redux-persist` with `AsyncStorage`; RTK Query cache is blacklisted from persistence by design
+- Extracted `src/store/rootReducer.ts` separately from store setup — prevents `persistStore` from running in tests
+- `PersistGate` added to `App.tsx`
+
+**Navigation**
+- Added `IntegrationScreen` to `RootStackParamList` and registered it as the initial route in the navigator
+- Created `src/app/IntegrationScreen.tsx` placeholder
+
+**Auth & Security**
+- Installed `expo-auth-session`, `expo-web-browser`, `expo-secure-store`
+- Added `"scheme": "upcomer"` to `app.json` (required for OAuth redirect URI)
+- Added `.env` to `.gitignore` (was previously only ignoring `.env*.local`)
+- Added `EXPO_PUBLIC_GOOGLE_CLIENT_ID` to `.env.example`
+
+**Tooling**
+- ESLint configured (`@typescript-eslint`, `react`, `react-hooks`, `prettier`)
+- Prettier configured (single quotes, semicolons, 100-char width, trailing commas)
+- `@/` path alias set up in `tsconfig.json` and `babel.config.js` (via `babel-plugin-module-resolver`)
+- Scripts added: `lint`, `lint:fix`, `format`, `format:check`, `test`, `test:watch`
+
+**Testing**
+- Jest via `jest-expo` preset
+- `transformIgnorePatterns` extended to include `immer` and `react-redux` (ESM packages)
+- `moduleNameMapper` for `@/` alias and `AsyncStorage` mock
+- `src/test-utils/store.ts` — `createTestStore(preloadedState?)`: isolated store, no persistence, imports from `rootReducer.ts` to avoid timer leaks
+- `src/test-utils/renderWithProviders.tsx` — `renderWithProviders(ui, { preloadedState? })`: returns `{ store, ...rtlQueries }`
+- Example slice test: `src/store/appSlice.test.ts` (4 passing, clean exit)
+- Example component test: `src/app/HomeScreen.test.tsx`
+
+**State at end of session:** 4/4 tests passing, `tsc` clean, `eslint` clean.
 
 ---
 
