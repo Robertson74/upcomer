@@ -25,7 +25,6 @@ The app has two modes:
 - React Native + Expo
 - TypeScript (strict)
 - Redux Toolkit + RTK Query for state management
-- NativeWind (Tailwind) for styling
 - Day.js for all date handling
 - All dates stored as strings (no native Date objects in models)
 - React Navigation for routing
@@ -45,7 +44,6 @@ The app has two modes:
 - All date calculations must be done with Day.js at the time of need
 
 ## UI & Styling Rules
-- Use NativeWind for all styling
 - Keep the UI extremely minimal and calm
 - Use a very limited color palette
 - Cards should be clean with generous whitespace
